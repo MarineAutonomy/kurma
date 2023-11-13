@@ -1,0 +1,1 @@
+docker build . -f KurmaDockerfile -t mavlab/kurma:latest

@@ -1,0 +1,60 @@
+FROM ros:noetic
+
+LABEL maintainer="abhilash"
+LABEL version="1.0"
+LABEL description="Docker Environment for Kurma"
+
+RUN apt-get update
+RUN apt-get -y install software-properties-common libsm6 libxext6 libxrender1 libfontconfig1 libgl1 sudo xauth python3-pip htop udev
+#RUN apt-get update
+RUN apt-get -y install \
+    ros-${ROS_DISTRO}-tf2-geometry-msgs \
+    ros-${ROS_DISTRO}-tf2-tools \
+    ros-${ROS_DISTRO}-tf \
+    ros-${ROS_DISTRO}-tf2 \
+    ros-${ROS_DISTRO}-geographic-msgs \
+    ros-${ROS_DISTRO}-rosserial \
+    ros-${ROS_DISTRO}-sbg-driver \
+    ros-${ROS_DISTRO}-ublox \
+    ros-${ROS_DISTRO}-ublox-msgs \
+    ros-${ROS_DISTRO}-ublox-gps \
+    ros-${ROS_DISTRO}-ublox-serialization \
+    ros-${ROS_DISTRO}-diagnostic-updater \
+    ros-${ROS_DISTRO}-rtcm-msgs \
+    ros-${ROS_DISTRO}-nmea-msgs \
+    ros-${ROS_DISTRO}-roscpp-serialization
+
+RUN apt-get -y install ros-${ROS_DISTRO}-rosbridge-server
+
+RUN apt-get -y install ros-${ROS_DISTRO}-diagnostic-updater
+RUN apt-get -y install vim nano git
+
+RUN pip install --upgrade pip
+
+ENV USERNAME kurma
+RUN useradd -m $USERNAME && \
+       echo "$USERNAME:$USERNAME" | chpasswd && \
+       usermod --shell /bin/bash $USERNAME && \
+       usermod -aG sudo $USERNAME && \
+       usermod -a -G dialout $USERNAME && \
+       echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME && \
+       chmod 0440 /etc/sudoers.d/$USERNAME
+
+USER kurma
+WORKDIR /home/kurma
+
+# RUN git clone https://github.com/MarineAutonomy/kurma.git
+
+# Source ROS
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh
+
+RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+# RUN echo "source /home/kurma/kurma/mission_ws/devel/setup.bash" >> ~/.bashrc
+
+# RUN echo "alias sbg='roslaunch sbg sbg_device.launch'" >> ~/.bashrc
+# RUN echo "alias enabledrive='rosrun rosserial_python serial_node.py /dev/ttyACM0 _baud:=115200'" >> ~/.bashrc
+# RUN echo "alias ardusimple='roslaunch ardusimple ublox_device.launch'" >> ~/.bashrc
+# RUN echo "alias mission='roslaunch mission_files mission.launch'" >> ~/.bashrc
+
+CMD ["bash"]
+

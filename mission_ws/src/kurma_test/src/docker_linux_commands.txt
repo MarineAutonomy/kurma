@@ -1,0 +1,13 @@
+jupyter notebook --no-browser --allow-root --port=8081
+
+sudo nano /root/.jupyter/jupyter_notebook_config.py
+
+sudo apt install nano
+
+sudo apt install epiphany
+
+rosrun kurma_realtime ros_realtime.py
+
+sudo apt-get install ros-noetic-tf
+
+sudo apt-get update

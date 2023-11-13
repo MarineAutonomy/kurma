@@ -1,0 +1,1 @@
+docker run -it --rm --net=host --env="DISPLAY" --workdir="/home/kurma" --volume=$(pwd):"/home/kurma/kurma" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name=kurma mavlab/kurma:latest bash

@@ -1,0 +1,19 @@
+<launch>
+    <!-- IMU data publisher node -->
+    <!-- <node name="imu_data_publisher" pkg="kurma_test" type="ros_imu_random.py"> -->
+        <!-- You can add any required arguments here -->
+    <!-- </node> -->
+
+    <!-- <node name="imu_data_listener" pkg="kurma_test" type="ros_realtime.py" output="screen"> -->
+        <!-- You can add any required arguments here -->
+    <!-- </node> -->
+
+     <node name="loop_play_rosbag" pkg="kurma_test" type="ros_play_bag.py" output="screen" args="/home/kurma/kurma/mission_ws/bags/roll_decay_1.bag 5">
+     </node>
+
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+        <!-- You can pass arguments here if needed -->
+    </include>
+
+
+</launch>
